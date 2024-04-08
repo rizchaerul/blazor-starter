@@ -1,8 +1,36 @@
+using System.Security.Claims;
+using DotnetCustomAuth.Server;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var services = builder.Services;
+
 // Add services to the container
-builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+services.AddControllers();
+services.AddSwaggerGen();
+services.AddHttpContextAccessor();
+
+services
+    .AddAuthentication()
+    .AddScheme<AuthenticationSchemeOptions, SessionIdAuthenticationHandler>(
+        SessionIdDefaults.AuthenticationScheme,
+        null
+    );
+
+services
+    .AddAuthorizationBuilder()
+    .AddPolicy(
+        SessionIdDefaults.AdminRolePolicy,
+        policy =>
+        {
+            policy.RequireAuthenticatedUser();
+            policy.RequireClaim(ClaimTypes.Role, "ADMINISTRATOR");
+        }
+    );
 
 var app = builder.Build();
 
@@ -13,5 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.Run();
