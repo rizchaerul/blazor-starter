@@ -1,9 +1,10 @@
 using System.Security.Claims;
-using DotnetCustomAuth.Server;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApp.Server.Handlers;
+using WebApp.Server.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCustomMiddleware();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

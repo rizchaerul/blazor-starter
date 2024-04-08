@@ -1,15 +1,17 @@
 using System.Linq;
 using System.Security.Claims;
-using DotnetCustomAuth.Server;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Server.Handlers;
+using WebApp.Server.Middlewares;
 
 namespace WebApp.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(AuthenticationSchemes = SessionIdDefaults.AuthenticationScheme, Policy = SessionIdDefaults.AdminRolePolicy)]
+[CustomMiddleware(true)]
 public class AuthenticationController : ControllerBase
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
