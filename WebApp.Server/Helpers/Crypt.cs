@@ -132,6 +132,7 @@ public class AES
 
 /// <summary>
 /// Asymmetric encryption using RSA and public/private key.
+/// Source: https://github.com/nagilum/cryptocsharp
 /// </summary>
 public class RSA
 {
