@@ -27,12 +27,10 @@ public class SessionIdAuthenticationHandler : AuthenticationHandler<Authenticati
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        await Task.Delay(1);
+        await Task.CompletedTask;
 
         // Get the token from the Authorization header
-        if (
-            !Context.Request.Headers.TryGetValue("Authorization", out var authorizationHeaderValues)
-        )
+        if (!Context.Request.Headers.TryGetValue("Authorization", out var authorizationHeaderValues))
         {
             return AuthenticateResult.Fail("Authorization header not found.");
         }
@@ -63,8 +61,6 @@ public class SessionIdAuthenticationHandler : AuthenticationHandler<Authenticati
         var claimsIdentity = new ClaimsIdentity(claims, "SessionId");
         var principal = new ClaimsPrincipal(claimsIdentity);
 
-        return AuthenticateResult.Success(
-            new AuthenticationTicket(principal, SessionIdDefaults.AuthenticationScheme)
-        );
+        return AuthenticateResult.Success(new AuthenticationTicket(principal, SessionIdDefaults.AuthenticationScheme));
     }
 }

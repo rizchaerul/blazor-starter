@@ -15,12 +15,7 @@ services.AddControllers();
 services.AddSwaggerGen();
 services.AddHttpContextAccessor();
 
-services
-    .AddAuthentication()
-    .AddScheme<AuthenticationSchemeOptions, SessionIdAuthenticationHandler>(
-        SessionIdDefaults.AuthenticationScheme,
-        null
-    );
+services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, SessionIdAuthenticationHandler>(SessionIdDefaults.AuthenticationScheme, null);
 
 services
     .AddAuthorizationBuilder()

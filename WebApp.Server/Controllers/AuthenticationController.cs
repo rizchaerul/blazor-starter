@@ -24,7 +24,12 @@ public class AuthenticationController : ControllerBase
     [HttpGet("check-status")]
     public ActionResult Get()
     {
-        var userId = _httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(Q => Q.Type == ClaimTypes.NameIdentifier);
+        var userId = _httpContextAccessor
+            .HttpContext
+            ?.User
+            .Claims
+            .FirstOrDefault(Q => Q.Type == ClaimTypes.NameIdentifier);
+
         return Ok(userId!.Value);
     }
 }
